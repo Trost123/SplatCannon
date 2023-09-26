@@ -11,8 +11,12 @@ public class CannonShooting : MonoBehaviour
     public float shootingForceIncrement = 2.0f; // Amount to increase/decrease the force
     public int maxPoints = 100; // Maximum number of points in the trajectory curve
 
+    const float trajectoryCalculationTimeStep = 0.05f;
+    
     private float shootingForce = 10.0f; // Initial shooting force
     private bool canAdjustShootingForce = true;
+    private bool isIncreasingForce = false;
+    private bool isDecreasingForce = false;
 
     private void Start()
     {
@@ -38,12 +42,29 @@ public class CannonShooting : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                shootingForce = Mathf.Clamp(shootingForce - shootingForceIncrement, minShootingForce, maxShootingForce);
+                isIncreasingForce = true;
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-                shootingForce = Mathf.Clamp(shootingForce + shootingForceIncrement, minShootingForce, maxShootingForce);
+                isDecreasingForce = true;
             }
+            else if (Input.GetKeyUp(KeyCode.Q))
+            {
+                isIncreasingForce = false;
+            }
+            else if (Input.GetKeyUp(KeyCode.E))
+            {
+                isDecreasingForce = false;
+            }
+        }
+
+        if (isIncreasingForce)
+        {
+            shootingForce = Mathf.Clamp(shootingForce + shootingForceIncrement * Time.deltaTime, minShootingForce, maxShootingForce);
+        }
+        else if (isDecreasingForce)
+        {
+            shootingForce = Mathf.Clamp(shootingForce - shootingForceIncrement * Time.deltaTime, minShootingForce, maxShootingForce);
         }
     }
 
@@ -59,11 +80,11 @@ public class CannonShooting : MonoBehaviour
         trajectoryPoints[pointIndex] = currentPosition;
         pointIndex++;
 
-        for (float time = 0; time < maxPoints; time += 0.1f)
+        for (float time = 0; time < maxPoints; time += trajectoryCalculationTimeStep)
         {
             // Calculate the next position and velocity using physics (including gravity)
-            currentPosition += currentVelocity * 0.1f;
-            currentVelocity += Physics.gravity * 0.1f;
+            currentPosition += currentVelocity * trajectoryCalculationTimeStep;
+            currentVelocity += Physics.gravity * trajectoryCalculationTimeStep;
 
             // Store the position in the trajectoryPoints array
             trajectoryPoints[pointIndex] = currentPosition;

@@ -502,5 +502,5 @@ MonoBehaviour:
   trajectoryLine: {fileID: 669037222}
   minShootingForce: 5
   maxShootingForce: 20
-  shootingForceIncrement: 2
+  shootingForceIncrement: 8
   maxPoints: 100
