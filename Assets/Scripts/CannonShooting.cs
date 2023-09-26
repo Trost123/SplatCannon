@@ -29,8 +29,8 @@ public class CannonShooting : MonoBehaviour
         // Update the trajectory line based on the current shooting direction
         UpdateTrajectoryLine();
 
-        // Handle shooting when the player presses the fire button (e.g., spacebar)
-        if (Input.GetButtonDown("Fire1"))
+        // Handle shooting when the player presses the spacebar
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Shoot();
         }
@@ -91,7 +91,7 @@ public class CannonShooting : MonoBehaviour
             trajectoryLine.SetPosition(i, currentPosition);
 
             // Exit the loop if the projectile goes below the ground
-            if (currentPosition.y < -0.5f)
+            if (currentPosition.y < -2.5f)
             {
                 trajectoryLine.positionCount = i;
                 break;
