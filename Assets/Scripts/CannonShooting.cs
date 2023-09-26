@@ -11,8 +11,6 @@ public class CannonShooting : MonoBehaviour
     public float shootingForceIncrement = 2.0f; // Amount to increase/decrease the force
     public int maxPoints = 100; // Maximum number of points in the trajectory curve
 
-    const float trajectoryCalculationTimeStep = 0.05f;
-    
     private float shootingForce = 10.0f; // Initial shooting force
     private bool canAdjustShootingForce = true;
     private bool isIncreasingForce = false;
@@ -70,48 +68,48 @@ public class CannonShooting : MonoBehaviour
 
     private void UpdateTrajectoryLine()
     {
+        trajectoryLine.positionCount = maxPoints;
+        trajectoryLine.SetPosition(0, shootPoint.transform.position);
+
         Vector3 currentPosition = shootPoint.position;
-        Vector3 currentVelocity = shootPoint.forward * shootingForce;
+        Vector3 currentVelocity = shootPoint.forward * shootingForce * 0.1f;
 
-        Vector3[] trajectoryPoints = new Vector3[maxPoints];
-        int pointIndex = 0;
+        float timeStep = Time.fixedDeltaTime; // Adjust this value as needed
 
-        // Calculate the initial trajectory point and add it to the array
-        trajectoryPoints[pointIndex] = currentPosition;
-        pointIndex++;
-
-        for (float time = 0; time < maxPoints; time += trajectoryCalculationTimeStep)
+        for (int i = 1; i < maxPoints; i++)
         {
-            // Calculate the next position and velocity using physics (including gravity)
-            currentPosition += currentVelocity * trajectoryCalculationTimeStep;
-            currentVelocity += Physics.gravity * trajectoryCalculationTimeStep;
+            for (int j = 0; j < 10; j++)
+            {
+                // Calculate the next position using the current velocity
+                currentPosition += currentVelocity * timeStep;
 
-            // Store the position in the trajectoryPoints array
-            trajectoryPoints[pointIndex] = currentPosition;
-            pointIndex++;
+                // Calculate the next velocity including the effect of gravity
+                currentVelocity += Physics.gravity * 0.05f * timeStep;
+            }
+            
+            // Set the current position in the trajectory line
+            trajectoryLine.SetPosition(i, currentPosition);
 
             // Exit the loop if the projectile goes below the ground
-            if (currentPosition.y < 0)
+            if (currentPosition.y < -0.5f)
             {
+                trajectoryLine.positionCount = i;
                 break;
             }
         }
-
-        // Set the positions of the trajectory line
-        trajectoryLine.positionCount = pointIndex;
-        trajectoryLine.SetPositions(trajectoryPoints);
     }
 
     private void Shoot()
     {
         // Instantiate a new projectile from the prefab at the shoot point
         GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+        
+        Projectile projectileComponent = projectile.GetComponent<Projectile>();
 
-        // Get the Rigidbody component of the projectile and apply a force
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        if (rb != null)
+        // Call the method to set the direction and power of the shot
+        if (projectileComponent != null)
         {
-            rb.velocity = shootPoint.forward * shootingForce;
+            projectileComponent.SetShotParameters(shootPoint.forward, shootingForce);
         }
 
         // Destroy the projectile after a certain time (adjust this as needed)
