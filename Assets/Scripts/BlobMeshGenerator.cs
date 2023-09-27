@@ -3,15 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class BlobMeshGenerator : MonoBehaviour
 {
-    public int resolution = 32; // Number of vertices per axis
-    public float radius = 1.0f; // Blob radius
-    public float noiseScale = 0.1f; // Scale of the noise
-    public float noiseStrength = 0.2f; // Strength of the noise
+    [Header("Blob Settings")]
+    [SerializeField, Range(3, 30)] private int resolution = 32;
+    [SerializeField, Range(0.1f, 100f)] private float noiseScale = 0.1f;
+    [SerializeField, Range(0.2f, 0.5f)] private float noiseStrength = 0.2f;
+    [SerializeField, Range(0.1f, 10f)] private float radius = 1.0f;
 
     private MeshFilter meshFilter;
     private Mesh mesh;
 
-    void Start()
+    private void Start()
     {
         meshFilter = GetComponent<MeshFilter>();
         mesh = new Mesh();
@@ -21,14 +22,14 @@ public class BlobMeshGenerator : MonoBehaviour
         GenerateBlobMesh();
     }
 
-    void GenerateRandomParams()
+    private void GenerateRandomParams()
     {
         resolution = Random.Range(3, 30);
-        noiseScale = Random.Range(1f, 100f);
+        noiseScale = Random.Range(0.1f, 100f);
         noiseStrength = Random.Range(0.2f, 0.5f);
     }
-    
-    void OnValidate()
+
+    private void OnValidate()
     {
         if (meshFilter != null)
         {
@@ -36,7 +37,7 @@ public class BlobMeshGenerator : MonoBehaviour
         }
     }
 
-    void GenerateBlobMesh()
+    private void GenerateBlobMesh()
     {
         Vector3[] vertices = new Vector3[(resolution + 1) * (resolution + 1)];
         Vector2[] uv = new Vector2[vertices.Length];
@@ -78,7 +79,7 @@ public class BlobMeshGenerator : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-    Vector3 GetPointOnSphere(float u, float v)
+    private Vector3 GetPointOnSphere(float u, float v)
     {
         float theta = 2 * Mathf.PI * u;
         float phi = Mathf.PI * (1 - v);

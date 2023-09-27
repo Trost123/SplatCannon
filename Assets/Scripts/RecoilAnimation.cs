@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class RecoilAnimation : MonoBehaviour
 {
-    public Transform cameraTransform; // Reference to the camera's transform
-    public float recoilDuration = 0.1f; // Duration of the recoil
-    public float recoilStrength = 0.1f; // Strength of the recoil
+    public Transform cameraTransform;  // Reference to the camera's transform
+    public float recoilDuration = 0.1f;  // Duration of the recoil
+    public float recoilStrength = 0.1f;  // Strength of the recoil
 
-    private Vector3 originalPosition; // Store the original position of the camera
-    private Vector3 recoilOffset; // 
-    private float recoilTimer; // Timer for the recoil duration
+    private Vector3 originalPosition;  // Store the original position of the camera
+    private Vector3 recoilOffset;  
+    private float recoilTimer;  // Timer for the recoil duration
 
     private void Start()
     {
         // Store the original position of the camera
         originalPosition = cameraTransform.localPosition;
         recoilOffset = new Vector3(0, 0, recoilStrength);
-
     }
 
     public void ApplyRecoil()

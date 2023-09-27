@@ -3,23 +3,26 @@ using UnityEngine.Serialization;
 
 public class CannonShooting : MonoBehaviour
 {
-    public GameObject projectilePrefab; // The projectile prefab to be instantiated
-    public Transform shootPoint; // The point from which the projectile is fired
-    public LineRenderer trajectoryLine; // LineRenderer to render the trajectory curve
+    [Header("Projectile Settings")]
+    [SerializeField] private GameObject projectilePrefab; // The projectile prefab to be instantiated
+    [SerializeField] private Transform shootPoint; // The point from which the projectile is fired
+    [SerializeField] private LineRenderer trajectoryLine; // LineRenderer to render the trajectory curve
 
-    public float minShootingForce = 5.0f; // Minimum shooting force
-    public float maxShootingForce = 20.0f; // Maximum shooting force
-    public float shootingForceIncrement = 2.0f; // Amount to increase/decrease the force
-    public int maxPoints = 100; // Maximum number of points in the trajectory curve
+    [Header("Shooting Settings")]
+    [SerializeField, Range(5.0f, 20.0f)] private float minShootingForce = 5.0f; // Minimum shooting force
+    [SerializeField, Range(5.0f, 20.0f)] private float maxShootingForce = 20.0f; // Maximum shooting force
+    [SerializeField, Range(1.0f, 10.0f)] private float shootingForceIncrement = 2.0f; // Amount to increase/decrease the force
+    [SerializeField] private int maxPoints = 100; // Maximum number of points in the trajectory curve
 
-    [FormerlySerializedAs("cameraRecoil")] [SerializeField] private RecoilAnimation recoilAnimation; // Reference to the RecoilAnimation component
-    [FormerlySerializedAs("barrelRecoil")] [SerializeField] private RecoilAnimation barrelRecoilAnimation; // Reference to the RecoilAnimation component
+    [Header("Recoil Animations")]
+    [SerializeField] private RecoilAnimation recoilAnimation; // Reference to the RecoilAnimation component
+    [SerializeField] private RecoilAnimation barrelRecoilAnimation; // Reference to the RecoilAnimation component
 
     private float shootingForce = 20.0f; // Initial shooting force
     private bool canAdjustShootingForce = true;
     private bool isIncreasingForce = false;
     private bool isDecreasingForce = false;
-    
+
     private Vector3 previousPosition;
     private Vector3 previousVelocity;
 
@@ -29,7 +32,7 @@ public class CannonShooting : MonoBehaviour
         trajectoryLine.positionCount = 0;
         trajectoryLine.startWidth = 0.05f;
         trajectoryLine.endWidth = 0.05f;
-        
+
         previousPosition = Vector3.zero;
         previousVelocity = Vector3.zero;
     }
@@ -80,7 +83,7 @@ public class CannonShooting : MonoBehaviour
     {
         Vector3 currentPosition = shootPoint.position;
         Vector3 currentVelocity = shootPoint.forward * shootingForce * 0.1f;
-        
+
         // Check if currentPosition or currentVelocity has changed
         bool positionChanged = currentPosition != previousPosition;
         bool velocityChanged = currentVelocity != previousVelocity;
@@ -89,10 +92,10 @@ public class CannonShooting : MonoBehaviour
         {
             return;
         }
-        
+
         previousPosition = currentPosition;
         previousVelocity = currentVelocity;
-        
+
         trajectoryLine.positionCount = maxPoints;
         trajectoryLine.SetPosition(0, shootPoint.transform.position);
 
@@ -108,7 +111,7 @@ public class CannonShooting : MonoBehaviour
                 // Calculate the next velocity including the effect of gravity
                 currentVelocity += Physics.gravity * 0.05f * timeStep;
             }
-            
+
             // Set the current position in the trajectory line
             trajectoryLine.SetPosition(i, currentPosition);
 
@@ -135,7 +138,8 @@ public class CannonShooting : MonoBehaviour
 
         // Destroy the projectile after a certain time (adjust this as needed)
         Destroy(projectile, 10.0f);
-        
+
+        // Apply recoil animations
         recoilAnimation.ApplyRecoil();
         barrelRecoilAnimation.ApplyRecoil();
     }

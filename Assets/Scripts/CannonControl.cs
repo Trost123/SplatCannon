@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class CannonControl : MonoBehaviour
 {
-    // Reference to the cannon barrel
-    public Transform cannonBarrel;
-
-    public float rotationSpeed = 30.0f; // Adjust this to control the rotation speed
-    public float verticalRotationSpeed = 20.0f; // Adjust this for vertical rotation
-    
+    [Header("Cannon Settings")]
+    [SerializeField] private Transform cannonBarrel;
+    [SerializeField] private float rotationSpeed = 30.0f; // Adjust this to control the rotation speed
+    [SerializeField] private float verticalRotationSpeed = 20.0f; // Adjust this for vertical rotation
 
     private void Update()
     {

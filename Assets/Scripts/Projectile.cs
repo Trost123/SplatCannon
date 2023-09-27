@@ -4,7 +4,7 @@ internal class Projectile : MonoBehaviour
 {
     private Vector3 _currentVelocity;
     private float _collisionDistance; // Maximum distance of the raycast
-    
+
     private int _collisionCount;
     private int _maxCollisionCount = 2;
 
@@ -14,7 +14,7 @@ internal class Projectile : MonoBehaviour
 
     private void Start()
     {
-         _collisionDistance = transform.localScale.x;
+        _collisionDistance = transform.localScale.x;
     }
 
     public void SetShotParameters(Vector3 shootPointForward, float shootingForce)
@@ -25,6 +25,7 @@ internal class Projectile : MonoBehaviour
     private void FixedUpdate()
     {
         if (_isExploded) return;
+
         // Calculate the next position and velocity using physics (including gravity)
         transform.position += _currentVelocity * Time.fixedDeltaTime;
         _currentVelocity += Physics.gravity * 0.8f * Time.fixedDeltaTime;
@@ -36,29 +37,29 @@ internal class Projectile : MonoBehaviour
     {
         // Get the direction of the projectile's velocity
         Vector3 rayDirection = _currentVelocity;
-        
+
         // Debug visualization of the ray
         Debug.DrawRay(transform.position, rayDirection.normalized * _collisionDistance, Color.red);
-        
+
         // Cast a ray in the forward direction of the projectile
         RaycastHit hit;
         if (Physics.Raycast(transform.position, rayDirection, out hit, _collisionDistance))
         {
-            // Check if the hit object is tagged as "Plane"
+            // Check if the hit object is tagged as "Wall"
             if (hit.collider.CompareTag("Wall"))
             {
                 _currentVelocity = Vector3.Reflect(_currentVelocity, hit.normal);
-                
+
                 // Apply velocity damping (adjust the value as needed)
                 float dampingFactor = 0.6f; // You can adjust this value
                 _currentVelocity *= dampingFactor;
-                
+
                 DecalSystem decalSystem = hit.collider.gameObject.GetComponent<DecalSystem>();
-                
-                //If the wall has DecalSystem component
+
+                // If the wall has a DecalSystem component
                 if (decalSystem != null)
                 {
-                    // Convert hit.point to local space of the plane game object
+                    // Convert hit.point to the local space of the plane game object
                     Vector3 localPoint = hit.collider.transform.InverseTransformPoint(hit.point);
 
                     // Call the DrawSplat method with localPoint coordinates
@@ -70,15 +71,16 @@ internal class Projectile : MonoBehaviour
                 if (_collisionCount == _maxCollisionCount)
                 {
                     _isExploded = true;
+
                     // Disable the mesh renderer
                     GetComponent<MeshRenderer>().enabled = false;
-                    
+
                     // Play all particle systems
                     foreach (var ps in _particleSystems)
                     {
-                            ps.Play();
+                        ps.Play();
                     }
-                    
+
                     Destroy(gameObject, 1f);
                 }
             }
