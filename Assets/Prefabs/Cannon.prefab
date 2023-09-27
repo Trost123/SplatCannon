@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 337719828}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -210,6 +211,21 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
+--- !u!114 &337719828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55a974175604f6428936e1e6c475c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 963194228}
+  recoilDuration: 0.5
+  recoilStrength: 0.04
 --- !u!1 &1004743272014979504
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 321349166912761700}
+  - component: {fileID: 1340967056}
   m_Layer: 0
   m_Name: Muzzle
   m_TagString: Untagged
@@ -433,6 +450,21 @@ Transform:
   m_Father: {fileID: 672304768335544824}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -13.664, y: 0, z: 0}
+--- !u!114 &1340967056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7243465188024208043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55a974175604f6428936e1e6c475c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1702245261672725185}
+  recoilDuration: 0.4
+  recoilStrength: -0.05
 --- !u!1 &8728164695028890684
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,3 +534,5 @@ MonoBehaviour:
   maxShootingForce: 40
   shootingForceIncrement: 8
   maxPoints: 100
+  recoilAnimation: {fileID: 337719828}
+  barrelRecoilAnimation: {fileID: 1340967056}

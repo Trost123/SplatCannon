@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CannonShooting : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class CannonShooting : MonoBehaviour
     public float maxShootingForce = 20.0f; // Maximum shooting force
     public float shootingForceIncrement = 2.0f; // Amount to increase/decrease the force
     public int maxPoints = 100; // Maximum number of points in the trajectory curve
+
+    [FormerlySerializedAs("cameraRecoil")] [SerializeField] private RecoilAnimation recoilAnimation; // Reference to the RecoilAnimation component
+    [FormerlySerializedAs("barrelRecoil")] [SerializeField] private RecoilAnimation barrelRecoilAnimation; // Reference to the RecoilAnimation component
 
     private float shootingForce = 20.0f; // Initial shooting force
     private bool canAdjustShootingForce = true;
@@ -121,7 +125,6 @@ public class CannonShooting : MonoBehaviour
     {
         // Instantiate a new projectile from the prefab at the shoot point
         GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
-        
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
 
         // Call the method to set the direction and power of the shot
@@ -132,5 +135,8 @@ public class CannonShooting : MonoBehaviour
 
         // Destroy the projectile after a certain time (adjust this as needed)
         Destroy(projectile, 10.0f);
+        
+        recoilAnimation.ApplyRecoil();
+        barrelRecoilAnimation.ApplyRecoil();
     }
 }

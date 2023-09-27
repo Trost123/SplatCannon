@@ -6,12 +6,11 @@ internal class Projectile : MonoBehaviour
     private float _collisionDistance; // Maximum distance of the raycast
     
     private int _collisionCount;
-    private int _maxCollisionCount = 3;
+    private int _maxCollisionCount = 2;
 
     private bool _isExploded;
 
     [SerializeField] private ParticleSystem[] _particleSystems;
-    
 
     private void Start()
     {
