@@ -4,6 +4,10 @@ internal class Projectile : MonoBehaviour
 {
     private Vector3 _currentVelocity;
     private float _collisionDistance; // Maximum distance of the raycast
+    
+    private int _collisionCount;
+    private int _maxCollisionCount = 3;
+    
 
     private void Start()
     {
@@ -37,13 +41,29 @@ internal class Projectile : MonoBehaviour
             if (hit.collider.CompareTag("Wall"))
             {
                 _currentVelocity = Vector3.Reflect(_currentVelocity, hit.normal);
+                
+                // Apply velocity damping (adjust the value as needed)
+                float dampingFactor = 0.8f; // You can adjust this value
+                _currentVelocity *= dampingFactor;
+                
                 DecalSystem decalSystem = hit.collider.gameObject.GetComponent<DecalSystem>();
-                // Convert hit.point to local space of the plane game object
-                Vector3 localPoint = hit.collider.transform.InverseTransformPoint(hit.point);
+                
+                //If the wall has DecalSystem component
+                if (decalSystem != null)
+                {
+                    // Convert hit.point to local space of the plane game object
+                    Vector3 localPoint = hit.collider.transform.InverseTransformPoint(hit.point);
 
-                Debug.Log(localPoint.x + " "+ localPoint.z);
-                // Call the DrawSplat method with localPoint coordinates
-                decalSystem.DrawSplat(localPoint.x, localPoint.z);
+                    // Call the DrawSplat method with localPoint coordinates
+                    decalSystem.DrawSplat(localPoint.x, localPoint.z);
+                }
+
+                _collisionCount++;
+
+                if (_collisionCount == _maxCollisionCount)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

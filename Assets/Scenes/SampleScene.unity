@@ -238,10 +238,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1800033786138753547, guid: e2e4cbe6963157b4d9beed85203ade1e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 1800033786138753547, guid: e2e4cbe6963157b4d9beed85203ade1e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.37
       objectReference: {fileID: 0}
@@ -285,10 +281,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Incline Wall
       objectReference: {fileID: 0}
-    - target: {fileID: 1800033786138753548, guid: e2e4cbe6963157b4d9beed85203ade1e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2e4cbe6963157b4d9beed85203ade1e, type: 3}
 --- !u!1 &1309284108480310768
@@ -321,7 +313,7 @@ GameObject:
   - component: {fileID: 1721630893069903075}
   m_Layer: 0
   m_Name: Ground Plane
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -443,10 +435,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 669037220, guid: 780d0bdcc178b2f45b13075605444ffb, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 672304768335544824, guid: 780d0bdcc178b2f45b13075605444ffb, type: 3}
       propertyPath: m_RootOrder
       value: 2

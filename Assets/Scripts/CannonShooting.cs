@@ -11,10 +11,13 @@ public class CannonShooting : MonoBehaviour
     public float shootingForceIncrement = 2.0f; // Amount to increase/decrease the force
     public int maxPoints = 100; // Maximum number of points in the trajectory curve
 
-    private float shootingForce = 10.0f; // Initial shooting force
+    private float shootingForce = 20.0f; // Initial shooting force
     private bool canAdjustShootingForce = true;
     private bool isIncreasingForce = false;
     private bool isDecreasingForce = false;
+    
+    private Vector3 previousPosition;
+    private Vector3 previousVelocity;
 
     private void Start()
     {
@@ -22,6 +25,9 @@ public class CannonShooting : MonoBehaviour
         trajectoryLine.positionCount = 0;
         trajectoryLine.startWidth = 0.05f;
         trajectoryLine.endWidth = 0.05f;
+        
+        previousPosition = Vector3.zero;
+        previousVelocity = Vector3.zero;
     }
 
     private void Update()
@@ -68,11 +74,23 @@ public class CannonShooting : MonoBehaviour
 
     private void UpdateTrajectoryLine()
     {
-        trajectoryLine.positionCount = maxPoints;
-        trajectoryLine.SetPosition(0, shootPoint.transform.position);
-
         Vector3 currentPosition = shootPoint.position;
         Vector3 currentVelocity = shootPoint.forward * shootingForce * 0.1f;
+        
+        // Check if currentPosition or currentVelocity has changed
+        bool positionChanged = currentPosition != previousPosition;
+        bool velocityChanged = currentVelocity != previousVelocity;
+
+        if (!positionChanged && !velocityChanged)
+        {
+            return;
+        }
+        
+        previousPosition = currentPosition;
+        previousVelocity = currentVelocity;
+        
+        trajectoryLine.positionCount = maxPoints;
+        trajectoryLine.SetPosition(0, shootPoint.transform.position);
 
         float timeStep = Time.fixedDeltaTime; // Adjust this value as needed
 
