@@ -695,10 +695,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 337719828, guid: 780d0bdcc178b2f45b13075605444ffb, type: 3}
-      propertyPath: recoilStrength
-      value: -0.01
-      objectReference: {fileID: 0}
     - target: {fileID: 672304768335544824, guid: 780d0bdcc178b2f45b13075605444ffb, type: 3}
       propertyPath: m_RootOrder
       value: 2

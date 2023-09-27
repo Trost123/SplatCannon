@@ -220,12 +220,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55a974175604f6428936e1e6c475c55, type: 3}
+  m_Script: {fileID: 11500000, guid: de7b3f325f8a4edc86d056447df16a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 963194228}
-  recoilDuration: 0.5
-  recoilStrength: 0.04
+  objectTransform: {fileID: 963194228}
+  recoilDuration: 3
+  recoilStrength: 0.1
 --- !u!1 &1004743272014979504
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55a974175604f6428936e1e6c475c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 1702245261672725185}
+  objectTransform: {fileID: 1702245261672725185}
   recoilDuration: 0.4
   recoilStrength: -0.05
 --- !u!1 &8728164695028890684
